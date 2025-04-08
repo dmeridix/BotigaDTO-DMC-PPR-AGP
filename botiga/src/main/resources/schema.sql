@@ -13,6 +13,14 @@ CREATE TABLE subcategoria (
         ON DELETE SET NULL
         ON UPDATE CASCADE
 );
+//-- Preguntar al Toni si hace falta una fk de subcategoria
+CREATE TABLE categoria (
+    id_Categoria BIGINT AUTO_INCREMENT PRIMARY KEY,
+    desc_Categoria VARCHAR(255) NOT NULL,
+    status_Categoria VARCHAR(100),
+    creation_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 CREATE TABLE products (
     product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
