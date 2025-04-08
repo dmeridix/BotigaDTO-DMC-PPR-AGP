@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "products")
-public class Product implements Serializable{
+public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long product_id;
@@ -32,8 +32,10 @@ public class Product implements Serializable{
     @Column
     private String subcategory;
 
-/*     @ManyToOne(cascade=CascadeType.PERSIST)
-    @JoinColumn(name="subcategory_id")
-    private Subcategory subcategory;    */ 
+    /*
+     * @ManyToOne(cascade=CascadeType.PERSIST)
+     * 
+     * @JoinColumn(name="subcategory_id")
+     * private Subcategory subcategory;
+     */
 }
-
