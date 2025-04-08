@@ -12,16 +12,15 @@ public class Subcategoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_Subcategoria;
+    private Long idSubcategoria;
 
-    private String desc_Subcategoria;
-    private String status_Subcategoria;
+    private String descSubcategoria;
+    private String statusSubcategoria;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-    private Timestamp creation_at;
-    private Timestamp updated_at;
-
+    private Timestamp creationAt;
+    private Timestamp updatedAt;
 }
