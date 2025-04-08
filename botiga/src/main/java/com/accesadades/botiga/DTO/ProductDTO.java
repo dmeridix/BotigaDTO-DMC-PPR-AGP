@@ -5,7 +5,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProducteDTO {
+public class ProductDTO {
 
   private String name;
   private String description;
