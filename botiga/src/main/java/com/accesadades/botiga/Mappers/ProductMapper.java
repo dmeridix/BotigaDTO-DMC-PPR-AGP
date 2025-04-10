@@ -4,6 +4,9 @@ import com.accesadades.botiga.DTO.ProductDTO;
 import com.accesadades.botiga.Model.Categoria;
 import com.accesadades.botiga.Model.Product;
 import com.accesadades.botiga.Model.Subcategoria;
+
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -31,6 +34,12 @@ public interface ProductMapper {
     @Mapping(target = "subcategory.creationAt", ignore = true)
     @Mapping(target = "subcategory.updatedAt", ignore = true)
     Product productDTOToProduct(ProductDTO productDTO);
+
+    default List<ProductDTO> productsToProductDTOs(List<Product> products) {
+        return products.stream()
+                .map(this::productToProductDTO)
+                .toList();
+    }
 
     default Categoria mapToCategory(String categoryName, String categoryStatus) {
         Categoria categoria = new Categoria();
