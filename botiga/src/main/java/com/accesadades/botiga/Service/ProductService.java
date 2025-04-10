@@ -1,12 +1,15 @@
 package com.accesadades.botiga.Service;
 
-import java.util.Set;
-import com.accesadades.botiga.Model.Product;
+import com.accesadades.botiga.DTO.ProductDTO;
+import java.util.List;
 
 public interface ProductService {
- 
-    Set<Product> findAllProducts();
-    Product findProductsByName(String name);
-    Set<Product> findAllProducts(String subcategory);
-    void increasePrice(Product product);
+
+    List<ProductDTO> findAllProducts();
+
+    ProductDTO findProductByName(String name);
+
+    List<ProductDTO> findProductsByCategory(String categoryName);
+
+    void increasePrice(ProductDTO productDTO);
 }
