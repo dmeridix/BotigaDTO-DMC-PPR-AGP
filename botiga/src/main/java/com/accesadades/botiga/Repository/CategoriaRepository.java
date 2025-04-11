@@ -5,10 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
-    List<Categoria> findByStatus_Categoria(String status_Categoria);
-    List<Categoria> findByDesc_CategoriaContainingIgnoreCase(String desc_Categoria);
-    List<Categoria> findByDesc_CategoriaAndStatus_Categoria(String desc_Categoria, String status_Categoria);
+
+    List<Categoria> findByStatusCategoria(String statusCategoria);
+    Optional<Categoria> findByDescCategoria(String descCategoria);
 }
