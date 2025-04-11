@@ -20,4 +20,14 @@ public class SubcategoriaServiceImpl implements GenericService<SubcategoriaDTO, 
     @Autowired
     private SubcategoriaMapper subcategoriaMapper;
 
+    @Override
+    public List<SubcategoriaDTO> findAll() {
+        return subcategoriaMapper.subcategoriaToSubcategoriaDTO(subcategoriaRepository.findAll());
+    }
+
+    @Override
+    public SubcategoriaDTO findByDescSubcategoria(String descSubcategoria) {
+
+    }
+
 }
