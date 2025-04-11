@@ -2,8 +2,12 @@ package com.accesadades.botiga.Service;
 
 import com.accesadades.botiga.DTO.ProductDTO;
 import com.accesadades.botiga.Mappers.ProductMapper;
+import com.accesadades.botiga.Model.Categoria;
 import com.accesadades.botiga.Model.Product;
+import com.accesadades.botiga.Model.Subcategoria;
+import com.accesadades.botiga.Repository.CategoriaRepository;
 import com.accesadades.botiga.Repository.ProductRepository;
+import com.accesadades.botiga.Repository.SubcategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,12 @@ public class ProductServiceImpl implements GenericService<ProductDTO, Long> {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
+    @Autowired
+    private SubcategoriaRepository subcategoriaRepository;
 
     @Autowired
     private ProductMapper productMapper;
@@ -34,7 +44,20 @@ public class ProductServiceImpl implements GenericService<ProductDTO, Long> {
     // Guardar un producto
     @Override
     public void save(ProductDTO productDTO) {
+        // Validar que la categoría exista
+        Categoria categoria = categoriaRepository.findByDescCategoria(productDTO.getCategoryName())
+                .orElseThrow(() -> new RuntimeException("Category not found with name: " + productDTO.getCategoryName()));
+
+        // Validar que la subcategoría exista
+        Subcategoria subcategoria = subcategoriaRepository.findByDescSubcategoria(productDTO.getSubcategoryName())
+                .orElseThrow(() -> new RuntimeException("Subcategory not found with name: " + productDTO.getSubcategoryName()));
+
+        // Mapear DTO a entidad
         Product product = productMapper.productDTOToProduct(productDTO);
+        product.setCategory(categoria);
+        product.setSubcategory(subcategoria);
+
+        // Guardar el producto
         productRepository.save(product);
     }
 
