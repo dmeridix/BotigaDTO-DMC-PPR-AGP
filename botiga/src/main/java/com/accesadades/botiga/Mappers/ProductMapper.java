@@ -35,23 +35,7 @@ public interface ProductMapper {
     @Mapping(target = "subcategory.updatedAt", ignore = true)
     Product productDTOToProduct(ProductDTO productDTO);
 
-    default List<ProductDTO> productsToProductDTOs(List<Product> products) {
-        return products.stream()
-                .map(this::productToProductDTO)
-                .toList();
-    }
+    List<ProductDTO> productsToProductDTOs(List<Product> products);
+    List<Product> productDTOsToProducts(List<ProductDTO> productDTOs);
 
-    default Categoria mapToCategory(String categoryName, String categoryStatus) {
-        Categoria categoria = new Categoria();
-        categoria.setDesc_Categoria(categoryName);
-        categoria.setStatus_Categoria(categoryStatus);
-        return categoria;
-    }
-
-    default Subcategoria mapToSubcategory(String subcategoryName, String subcategoryStatus) {
-        Subcategoria subcategoria = new Subcategoria();
-        subcategoria.setDescSubcategoria(subcategoryName);
-        subcategoria.setStatusSubcategoria(subcategoryStatus);
-        return subcategoria;
-    }
 }
