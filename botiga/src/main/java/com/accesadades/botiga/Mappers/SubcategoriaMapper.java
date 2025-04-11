@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
 import java.util.Set;
 
 import com.accesadades.botiga.DTO.SubcategoriaDTO;
@@ -22,7 +23,8 @@ public interface SubcategoriaMapper {
     @Mapping(target = "categoria", source = "subcategoriaDTO.categoria")
     Subcategoria subcategoriaDTOToSubcategoria(SubcategoriaDTO subcategoriaDTO);
 
-    Set<Subcategoria> subcategoriasDTOToSubcategorias(Set<SubcategoriaDTO> subcategoriasDTO);
+    List<SubcategoriaDTO> subcategoriaToSubcategoriaDTO(List<Subcategoria> subcategorias);
 
-    Set<SubcategoriaDTO> subcategoriasToSubcategoriasDTO(Set<Subcategoria> subcategorias);
+    List<Subcategoria> subcategoriaDTOToSubcategoria(List<SubcategoriaDTO> subcategoriaDTOs);
+
 }
