@@ -15,11 +15,13 @@ public interface CategoriaMapper {
     @Mapping(target = "desc_Categoria", source = "categoria.desc_Categoria")
     @Mapping(target = "status_Categoria", source = "categoria.status_Categoria")
     @Mapping(target = "subcategoria", source = "categoria.subcategoria")
+    @Mapping(target = "productos", source = "categoria.productos")
     CategoriaDTO CategoriaToCategoriaDTO(Categoria categoria);
 
     @Mapping(target = "desc_Categoria", source = "categoriaDTO.desc_Categoria")
     @Mapping(target = "status_Categoria", source = "categoriaDTO.status_Categoria")
     @Mapping(target = "subcategoria", source = "categoriaDTO.subcategoria")
+    @Mapping(target = "productos", source = "categoriaDTO.productos")
     Categoria CategoriaDTOToCategoria(CategoriaDTO categoriaDTO);
 
     Set<Categoria> CategoriesDTOToCategories(Set<CategoriaDTO> categoriesDTO);
