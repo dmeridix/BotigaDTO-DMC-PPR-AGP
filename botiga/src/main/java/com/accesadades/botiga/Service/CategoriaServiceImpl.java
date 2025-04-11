@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CategoriaServiceImpl implements GenericService<CategoriaDTO, Long> {
@@ -23,9 +22,7 @@ public class CategoriaServiceImpl implements GenericService<CategoriaDTO, Long> 
     @Override
     public List<CategoriaDTO> findAll() {
         List<Categoria> result = categoriaRepository.findAll();
-        return result.stream()
-                     .map(categoriaMapper::CategoriaToCategoriaDTO)
-                     .collect(Collectors.toList());
+        return categoriaMapper.CategoriesToCategoriesDTO(result);
     }
 
     @Override
@@ -47,12 +44,8 @@ public class CategoriaServiceImpl implements GenericService<CategoriaDTO, Long> 
 
     public List<CategoriaDTO> findCategoriesByStatus(String statusCategoria) {
         List<Categoria> result = categoriaRepository.findByStatusCategoria(statusCategoria);
-        return result.stream()
-                     .map(categoriaMapper::CategoriaToCategoriaDTO)
-                     .collect(Collectors.toList());
+        return categoriaMapper.CategoriesToCategoriesDTO(result);
     }
-
-
 
     public Optional<CategoriaDTO> findCategoryByExactDescription(String descCategoria) {
         Optional<Categoria> categoria = categoriaRepository.findByDescCategoria(descCategoria);
