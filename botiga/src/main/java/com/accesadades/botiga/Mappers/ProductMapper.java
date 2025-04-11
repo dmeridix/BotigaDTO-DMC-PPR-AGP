@@ -15,22 +15,22 @@ public interface ProductMapper {
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
     // Mapeig de Entitat Product a DTO
-    @Mapping(source = "categoria.desc_Categoria", target = "categoryName")
-    @Mapping(source = "categoria.status_Categoria", target = "categoryStatus")
-    @Mapping(source = "subcategoria.descSubcategoria", target = "subcategoryName")
-    @Mapping(source = "subcategoria.statusSubcategoria", target = "subcategoryStatus")
+    @Mapping(source = "category.desc_Categoria", target = "categoryName")
+    @Mapping(source = "category.status_Categoria", target = "categoryStatus")
+    @Mapping(source = "subcategory.descSubcategoria", target = "subcategoryName")
+    @Mapping(source = "subcategory.statusSubcategoria", target = "subcategoryStatus")
     ProductDTO productToProductDTO(Product product);
 
     // Mapeig de DTO a Entitat Product
     @Mapping(target = "product_id", ignore = true)
     @Mapping(target = "creationDate", ignore = true)
     @Mapping(target = "updateDate", ignore = true)
-    @Mapping(target = "categoria.id_Categoria", ignore = true)
-    @Mapping(target = "categoria.creation_at", ignore = true)
-    @Mapping(target = "categoria.updated_at", ignore = true)
-    @Mapping(target = "subcategoria.idSubcategoria", ignore = true)
-    @Mapping(target = "subcategoria.creationAt", ignore = true)
-    @Mapping(target = "subcategoria.updatedAt", ignore = true)
+    @Mapping(target = "category.id_Categoria", ignore = true)
+    @Mapping(target = "category.creation_at", ignore = true)
+    @Mapping(target = "category.updated_at", ignore = true)
+    @Mapping(target = "subcategory.idSubcategoria", ignore = true)
+    @Mapping(target = "subcategory.creationAt", ignore = true)
+    @Mapping(target = "subcategory.updatedAt", ignore = true)
     Product productDTOToProduct(ProductDTO productDTO);
 
     List<ProductDTO> productsToProductDTOs(List<Product> products);

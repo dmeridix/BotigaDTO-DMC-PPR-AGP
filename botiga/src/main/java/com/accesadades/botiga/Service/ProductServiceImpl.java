@@ -54,8 +54,8 @@ public class ProductServiceImpl implements GenericService<ProductDTO, Long> {
 
         // Mapear DTO a entidad
         Product product = productMapper.productDTOToProduct(productDTO);
-        product.setCategoria(categoria);
-        product.setSubcategoria(subcategoria);
+        product.setCategory(categoria);
+        product.setSubcategory(subcategoria);
 
         // Guardar el producto
         productRepository.save(product);

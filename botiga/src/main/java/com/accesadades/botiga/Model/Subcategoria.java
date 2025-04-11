@@ -24,7 +24,7 @@ public class Subcategoria {
     @JoinColumn(name = "categoria_id", referencedColumnName = "id_Categoria", nullable = false)
     private Categoria categoria;
 
-    @OneToMany(mappedBy = "subcategoria", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "subcategory", cascade = CascadeType.ALL)
     private List<Product> productes;
 
     @Column(name = "creation_at", nullable = false)
