@@ -13,8 +13,8 @@ import com.accesadades.botiga.Model.Subcategoria;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoriaDTO {
-    private String desc_Categoria;
-    private String status_Categoria;
+    private String descCategoria;
+    private String statusCategoria;
     private List<Subcategoria> subcategoria;
     private List<Product> productos;
 }

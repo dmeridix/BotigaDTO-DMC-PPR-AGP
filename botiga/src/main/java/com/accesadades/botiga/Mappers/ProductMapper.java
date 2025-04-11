@@ -7,16 +7,17 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ProductMapper {
 
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
     // Mapeig de Entitat Product a DTO
-    @Mapping(source = "category.desc_Categoria", target = "categoryName")
-    @Mapping(source = "category.status_Categoria", target = "categoryStatus")
+    @Mapping(source = "category.descCategoria", target = "categoryName")
+    @Mapping(source = "category.statusCategoria", target = "categoryStatus")
     @Mapping(source = "subcategory.descSubcategoria", target = "subcategoryName")
     @Mapping(source = "subcategory.statusSubcategoria", target = "subcategoryStatus")
     ProductDTO productToProductDTO(Product product);
@@ -25,7 +26,7 @@ public interface ProductMapper {
     @Mapping(target = "product_id", ignore = true)
     @Mapping(target = "creationDate", ignore = true)
     @Mapping(target = "updateDate", ignore = true)
-    @Mapping(target = "category.id_Categoria", ignore = true)
+    @Mapping(target = "category.idCategoria", ignore = true)
     @Mapping(target = "category.creation_at", ignore = true)
     @Mapping(target = "category.updated_at", ignore = true)
     @Mapping(target = "subcategory.idSubcategoria", ignore = true)

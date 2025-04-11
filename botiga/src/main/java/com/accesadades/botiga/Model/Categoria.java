@@ -13,10 +13,13 @@ public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_Categoria;
+    @Column(name = "id_Categoria")
+    private Long idCategoria;
 
-    private String desc_Categoria;
-    private String status_Categoria;
+    @Column(name = "desc_Categoria")
+    private String descCategoria;
+    @Column(name = "status_Categoria")
+    private String statusCategoria;
 
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
     private List<Subcategoria> subcategoria;
