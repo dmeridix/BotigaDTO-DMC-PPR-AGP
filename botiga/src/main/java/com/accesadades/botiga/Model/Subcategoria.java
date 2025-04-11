@@ -3,6 +3,7 @@ package com.accesadades.botiga.Model;
 import lombok.*;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -18,8 +19,11 @@ public class Subcategoria {
     private String statusSubcategoria;
 
     @ManyToOne
-    @JoinColumn(name = "categoria_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Categoria categoria;
+
+    @OneToMany(mappedBy = "subcategoria")
+    private List<Product> productes;
 
     private Timestamp creationAt;
     private Timestamp updatedAt;
