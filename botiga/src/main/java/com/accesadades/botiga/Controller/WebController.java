@@ -6,37 +6,44 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import com.accesadades.botiga.DTO.ProductDTO;
-import com.accesadades.botiga.Service.ProductService;
-import java.util.Set;
+import com.accesadades.botiga.Service.ProductServiceImpl;
+
+import java.util.List;
 
 @Controller
 public class WebController {
 
     @Autowired
-    private  productService;
+    private ProductServiceImpl productService; // Injectem la implementació del servei
 
-    // Página principal
+    // Pàgina principal
     @RequestMapping(value = "/")
     public String index(Model model) {
         return "index";
     }
 
-    // Catálogo de productos
+    // Catàleg de productes
     @RequestMapping(value = "/catalog")
     public String catalog(Model model) {
-        Set<ProductDTO> products = productService.findAll(); // Obtiene DTOs en lugar de entidades
+        List<ProductDTO> products = productService.findAll(); // Obtenim DTOs des del servei
         model.addAttribute("products", products);
         return "catalog";
     }
 
-    // Búsqueda de productos por nombre
+    // Cerca de productes per nom
     @RequestMapping(value = {"/search", "/prodname"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String searchProductByName(@RequestParam(value = "name", required = false) String name, Model model) {
-        if (name != null) {
-            ProductDTO product = productService.findProductByName(name); // Obtiene un DTO en lugar de una entidad
-            model.addAttribute("product", product);
+        if (name != null && !name.isEmpty()) {
+            try {
+                ProductDTO product = productService.findProductByName(name); // Obtenim un DTO en lloc d'una entitat
+                model.addAttribute("product", product);
+            } catch (RuntimeException e) {
+                // Si no es troba el producte, podem mostrar un missatge d'error
+                model.addAttribute("errorMessage", "No s'ha trobat cap producte amb el nom: " + name);
+            }
         }
-        return "search"; // Referencia a search.html en el directorio templates
+        return "search"; // Referència a search.html en el directori templates
     }
 }
