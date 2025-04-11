@@ -45,24 +45,17 @@ public class CategoriaServiceImpl implements GenericService<CategoriaDTO, Long> 
         categoriaRepository.deleteById(id);
     }
 
-    public List<CategoriaDTO> findCategoriesByStatus(String status_Categoria) {
-        List<Categoria> result = categoriaRepository.findByStatus_Categoria(status_Categoria);
+    public List<CategoriaDTO> findCategoriesByStatus(String statusCategoria) {
+        List<Categoria> result = categoriaRepository.findByStatusCategoria(statusCategoria);
         return result.stream()
                      .map(categoriaMapper::CategoriaToCategoriaDTO)
                      .collect(Collectors.toList());
     }
 
-    public List<CategoriaDTO> findCategoriesByDescriptionContaining(String desc_Categoria) {
-        List<Categoria> result = categoriaRepository.findByDesc_CategoriaContainingIgnoreCase(desc_Categoria);
-        return result.stream()
-                     .map(categoriaMapper::CategoriaToCategoriaDTO)
-                     .collect(Collectors.toList());
-    }
 
-    public List<CategoriaDTO> findCategoriesByDescriptionAndStatus(String desc_Categoria, String status_Categoria) {
-        List<Categoria> result = categoriaRepository.findByDesc_CategoriaAndStatus_Categoria(desc_Categoria, status_Categoria);
-        return result.stream()
-                     .map(categoriaMapper::CategoriaToCategoriaDTO)
-                     .collect(Collectors.toList());
+
+    public Optional<CategoriaDTO> findCategoryByExactDescription(String descCategoria) {
+        Optional<Categoria> categoria = categoriaRepository.findByDescCategoria(descCategoria);
+        return categoria.map(categoriaMapper::CategoriaToCategoriaDTO);
     }
 }
