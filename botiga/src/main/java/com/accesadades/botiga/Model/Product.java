@@ -10,10 +10,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "products")
+@Table(name = "producte")
 public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private long product_id;
     @Column
     private String name;
@@ -31,7 +32,7 @@ public class Product implements Serializable {
     private LocalDateTime updateDate;
 
     // Una producte te una categoria
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "id_Categoria", nullable = false)
     private Categoria category;
 
@@ -40,10 +41,4 @@ public class Product implements Serializable {
     @JoinColumn(name = "subcategory_id", referencedColumnName = "id_Subcategoria", nullable = false)
     private Subcategoria subcategory;
 
-    /*
-     * @ManyToOne(cascade=CascadeType.PERSIST)
-     * 
-     * @JoinColumn(name="subcategory_id")
-     * private Subcategory subcategory;
-     */
 }
