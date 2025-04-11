@@ -9,5 +9,10 @@ import com.accesadades.botiga.Model.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Product findByName(String name);
+
     List<Product> findByNameAndPrice(String name, float price);
+
+    List<Product> findByCategoryDescCategoria(String categoryName);
+
+    List<Product> findBySubcategoryDescSubcategoria(String subcategoryName);
 }
