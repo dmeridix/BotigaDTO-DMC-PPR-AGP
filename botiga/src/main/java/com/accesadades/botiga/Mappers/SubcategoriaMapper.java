@@ -23,8 +23,8 @@ public interface SubcategoriaMapper {
     @Mapping(target = "categoria", source = "subcategoriaDTO.categoria")
     Subcategoria subcategoriaDTOToSubcategoria(SubcategoriaDTO subcategoriaDTO);
 
-    List<SubcategoriaDTO> subcategoriaToSubcategoriaDTO(List<Subcategoria> subcategorias);
+    List<SubcategoriaDTO> subcategoriesToSubcategoriesDTO(List<Subcategoria> subcategorias);
 
-    List<Subcategoria> subcategoriaDTOToSubcategoria(List<SubcategoriaDTO> subcategoriaDTOs);
+    List<Subcategoria> subcategoriesDTOToSubcategories(List<SubcategoriaDTO> subcategoriaDTOs);
 
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class SubcategoriaServiceImpl implements GenericService<SubcategoriaDTO, Long> {
@@ -22,12 +21,33 @@ public class SubcategoriaServiceImpl implements GenericService<SubcategoriaDTO, 
 
     @Override
     public List<SubcategoriaDTO> findAll() {
-        return subcategoriaMapper.subcategoriaToSubcategoriaDTO(subcategoriaRepository.findAll());
+        return subcategoriaMapper.subcategoriesToSubcategoriesDTO(subcategoriaRepository.findAll());
     }
 
     @Override
-    public SubcategoriaDTO findByDescSubcategoria(String descSubcategoria) {
-
+    public Optional<SubcategoriaDTO> findById(Long id) {
+        Optional<Subcategoria> subcategoria = subcategoriaRepository.findById(id);
+        return subcategoria.map(subcategoriaMapper::subcategoriaToSubcategoriaDTO);
     }
 
+    @Override
+    public void save(SubcategoriaDTO subcategoriaDTO) {
+        Subcategoria subcategoria = subcategoriaMapper.subcategoriaDTOToSubcategoria(subcategoriaDTO);
+        subcategoriaRepository.save(subcategoria);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        subcategoriaRepository.deleteById(id);
+    }
+
+    public Optional<SubcategoriaDTO> findByDescSubcategoria(String descSubcategoria) {
+        Optional<Subcategoria> subcategoria = subcategoriaRepository.findByDescSubcategoria(descSubcategoria);
+        return subcategoria.map(subcategoriaMapper::subcategoriaToSubcategoriaDTO);
+    }
+
+    public List<SubcategoriaDTO> findByStatusSubcategoria(String statusSubcategoria) {
+        List<Subcategoria> subcategorias = subcategoriaRepository.findByStatusSubcategoria(statusSubcategoria);
+        return subcategoriaMapper.subcategoriesToSubcategoriesDTO(subcategorias);
+    }
 }
