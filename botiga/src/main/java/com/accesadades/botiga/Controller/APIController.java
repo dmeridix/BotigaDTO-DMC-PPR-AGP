@@ -6,6 +6,8 @@ import com.accesadades.botiga.DTO.SubcategoriaDTO;
 import com.accesadades.botiga.Service.CategoriaServiceImpl;
 import com.accesadades.botiga.Service.ProductServiceImpl;
 import com.accesadades.botiga.Service.SubcategoriaServiceImpl;
+
+import org.apache.el.stream.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -76,6 +78,24 @@ public class APIController {
         return ResponseEntity.ok(categories);
     }
 
+    // Cercar categories per descCategoria (descripció)
+    @GetMapping("/CercarCategoriesPerDescripcio")
+    public ResponseEntity<List<CategoriaDTO>> cercarCategoriesPerDescripcio(@RequestParam String desc) {
+        List<CategoriaDTO> categories = categoriaService.findByDescCategoriaContaining(desc);
+        return ResponseEntity.ok(categories);
+    }
+    
+    // Eliminar una categoria per ID
+    @DeleteMapping("/EliminarCategoria/{id}")
+    public ResponseEntity<Void> eliminarCategoria(@PathVariable Long id) {
+        if (categoriaService.findById(id).isPresent()) {
+            categoriaService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
     // Nova Subcategoria: api/botiga/inserirSubcategoria
     @PostMapping("/inserirSubcategoria")
     public ResponseEntity<SubcategoriaDTO> inserirSubcategoria(@RequestBody SubcategoriaDTO subcategoriaDTO) {
@@ -89,4 +109,5 @@ public class APIController {
         List<SubcategoriaDTO> subcategories = subcategoriaService.findAll();
         return ResponseEntity.ok(subcategories);
     }
+
 }

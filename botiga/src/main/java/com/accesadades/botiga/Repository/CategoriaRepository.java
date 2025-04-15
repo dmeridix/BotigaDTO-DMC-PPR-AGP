@@ -12,4 +12,5 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
     List<Categoria> findByStatusCategoria(String statusCategoria);
     Optional<Categoria> findByDescCategoria(String descCategoria);
+    List<Categoria> findByDescCategoriaContainingIgnoreCase(String descCategoria);
 }

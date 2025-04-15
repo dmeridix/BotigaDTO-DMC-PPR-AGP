@@ -51,4 +51,10 @@ public class CategoriaServiceImpl implements GenericService<CategoriaDTO, Long> 
         Optional<Categoria> categoria = categoriaRepository.findByDescCategoria(descCategoria);
         return categoria.map(categoriaMapper::CategoriaToCategoriaDTO);
     }
+    
+    public List<CategoriaDTO> findByDescCategoriaContaining(String descCategoria) {
+        List<Categoria> result = categoriaRepository.findByDescCategoriaContainingIgnoreCase(descCategoria);
+        return categoriaMapper.CategoriesToCategoriesDTO(result);
+    }
+    
 }
