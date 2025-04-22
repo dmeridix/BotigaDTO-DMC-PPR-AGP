@@ -1,6 +1,8 @@
 package com.accesadades.botiga.DTO;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
@@ -14,8 +16,6 @@ public class ProductDTO {
   private long units;
 
   private String categoryName;
-  private String categoryStatus;
 
   private String subcategoryName;
-  private String subcategoryStatus;
 }

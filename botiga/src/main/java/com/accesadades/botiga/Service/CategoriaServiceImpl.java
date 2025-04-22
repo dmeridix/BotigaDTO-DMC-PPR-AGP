@@ -1,14 +1,15 @@
 package com.accesadades.botiga.Service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.accesadades.botiga.DTO.CategoriaDTO;
 import com.accesadades.botiga.Mappers.CategoriaMapper;
 import com.accesadades.botiga.Model.Categoria;
 import com.accesadades.botiga.Repository.CategoriaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoriaServiceImpl implements GenericService<CategoriaDTO, Long> {
@@ -34,6 +35,9 @@ public class CategoriaServiceImpl implements GenericService<CategoriaDTO, Long> 
     @Override
     public void save(CategoriaDTO categoriaDTO) {
         Categoria categoria = categoriaMapper.CategoriaDTOToCategoria(categoriaDTO);
+
+        categoria.setStatusCategoria("Actiu");
+
         categoriaRepository.save(categoria);
     }
 

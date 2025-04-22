@@ -1,6 +1,8 @@
 package com.accesadades.botiga.DTO;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
@@ -9,7 +11,7 @@ import lombok.*;
 public class SubcategoriaDTO {
 
     private String descSubcategoria;
-    private String statusSubcategoria;
-    private CategoriaDTO categoria;
+    // private String statusSubcategoria;
+    // private CategoriaDTO categoria;
 
 }
