@@ -13,8 +13,6 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ProductMapper {
 
-    ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
-
     // Mapeig de Entitat Product a DTO
     @Mapping(source = "category.descCategoria", target = "categoryName")
     @Mapping(source = "category.statusCategoria", target = "categoryStatus")
