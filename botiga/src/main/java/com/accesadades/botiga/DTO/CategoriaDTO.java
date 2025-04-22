@@ -6,15 +6,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-import com.accesadades.botiga.Model.Product;
-import com.accesadades.botiga.Model.Subcategoria;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoriaDTO {
     private String descCategoria;
     private String statusCategoria;
-    private List<Subcategoria> subcategoria;
-    private List<Product> productos;
+    private List<SubcategoriaDTO> subcategoria;
+    private List<ProductDTO> productos;
 }
