@@ -15,7 +15,7 @@ public class ProductDTO {
   private float price;
   private long units;
 
-  private String category;
+  private String descCategoria;
 
-  private String subcategory;
+  private String descSubcategoria;
 }
