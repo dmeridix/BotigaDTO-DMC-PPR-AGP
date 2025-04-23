@@ -3,6 +3,9 @@ package com.accesadades.botiga.Model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,7 +40,10 @@ public class Product implements Serializable {
     @Column
     private long units;
     @Column(name = "creation_at")
+    @CreatedDate
     private LocalDateTime creationDate;
+
+    @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updateDate;
 
