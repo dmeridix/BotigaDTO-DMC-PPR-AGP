@@ -1,9 +1,11 @@
 package com.accesadades.botiga.Repository;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
 import com.accesadades.botiga.Model.Product;
 
 @Repository
@@ -12,7 +14,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByNameAndPrice(String name, float price);
 
-    List<Product> findByCategoryDescCategoria(String categoryName);
+    List<Product> findByCategoriaDescCategoria(String categoryName);
 
-    List<Product> findBySubcategoryDescSubcategoria(String subcategoryName);
+    List<Product> findBySubcategoriaDescSubcategoria(String subcategoryName);
+
+    @Query("SELECT p FROM Product p JOIN FETCH p.categoria JOIN FETCH p.subcategoria")
+    List<Product> findAllWithRelations();
 }

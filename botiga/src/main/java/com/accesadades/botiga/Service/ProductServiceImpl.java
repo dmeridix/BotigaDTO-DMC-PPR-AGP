@@ -32,7 +32,8 @@ public class ProductServiceImpl implements GenericService<ProductDTO, Long> {
     // Listar todos los productos
     @Override
     public List<ProductDTO> findAll() {
-        return productMapper.productsToProductDTOs(productRepository.findAll());
+        List<Product> products = productRepository.findAllWithRelations();
+        return productMapper.productsToProductDTOs(products);
     }
 
     // Buscar producto por ID
@@ -45,17 +46,19 @@ public class ProductServiceImpl implements GenericService<ProductDTO, Long> {
     @Override
     public void save(ProductDTO productDTO) {
         // Validar que la categoría exista
-        Categoria categoria = categoriaRepository.findByDescCategoria(productDTO.getCategoryName())
-                .orElseThrow(() -> new RuntimeException("Category not found with name: " + productDTO.getCategoryName()));
+        Categoria categoria = categoriaRepository.findByDescCategoria(productDTO.getDescCategoria())
+                .orElseThrow(
+                        () -> new RuntimeException("Category not found with name: " + productDTO.getDescCategoria()));
 
         // Validar que la subcategoría exista
-        Subcategoria subcategoria = subcategoriaRepository.findByDescSubcategoria(productDTO.getSubcategoryName())
-                .orElseThrow(() -> new RuntimeException("Subcategory not found with name: " + productDTO.getSubcategoryName()));
+        Subcategoria subcategoria = subcategoriaRepository.findByDescSubcategoria(productDTO.getDescSubcategoria())
+                .orElseThrow(() -> new RuntimeException(
+                        "Subcategory not found with name: " + productDTO.getDescSubcategoria()));
 
         // Mapear DTO a entidad
         Product product = productMapper.productDTOToProduct(productDTO);
-        product.setCategory(categoria);
-        product.setSubcategory(subcategoria);
+        product.setCategoria(categoria);
+        product.setSubcategoria(subcategoria);
 
         // Guardar el producto
         productRepository.save(product);
@@ -86,5 +89,17 @@ public class ProductServiceImpl implements GenericService<ProductDTO, Long> {
     public List<ProductDTO> findProductsBySubcategory(String subcategoryName) {
         List<Product> products = productRepository.findBySubcategoryDescSubcategoria(subcategoryName);
         return productMapper.productsToProductDTOs(products);
+    }
+
+    public void modificarPreu(Long id, float newPrice) {
+        // Recuperar el producto existente por su ID
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+
+        // Actualizar el precio del producto
+        product.setPrice(newPrice);
+
+        // Guardar el producto actualizado
+        productRepository.save(product);
     }
 }

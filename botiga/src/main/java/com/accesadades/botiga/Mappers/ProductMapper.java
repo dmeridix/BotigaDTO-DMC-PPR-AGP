@@ -3,6 +3,7 @@ package com.accesadades.botiga.Mappers;
 import java.util.List;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import com.accesadades.botiga.DTO.ProductDTO;
@@ -11,8 +12,9 @@ import com.accesadades.botiga.Model.Product;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ProductMapper {
 
-
     // Mapeig de Entitat Product a DTO
+    @Mapping(target = "descCategoria", source = "categoria.descCategoria")
+    @Mapping(target = "descSubcategoria", source = "subcategoria.descSubcategoria")
     ProductDTO productToProductDTO(Product product);
 
     // Mapeig de DTO a Entitat Product
