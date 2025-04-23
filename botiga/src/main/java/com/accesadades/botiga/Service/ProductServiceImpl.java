@@ -32,7 +32,8 @@ public class ProductServiceImpl implements GenericService<ProductDTO, Long> {
     // Listar todos los productos
     @Override
     public List<ProductDTO> findAll() {
-        return productMapper.productsToProductDTOs(productRepository.findAll());
+        List<Product> products = productRepository.findAllWithRelations();
+        return productMapper.productsToProductDTOs(products);
     }
 
     // Buscar producto por ID
@@ -45,17 +46,19 @@ public class ProductServiceImpl implements GenericService<ProductDTO, Long> {
     @Override
     public void save(ProductDTO productDTO) {
         // Validar que la categoría exista
-        Categoria categoria = categoriaRepository.findByDescCategoria(productDTO.getCategoryName())
-                .orElseThrow(() -> new RuntimeException("Category not found with name: " + productDTO.getCategoryName()));
+        Categoria categoria = categoriaRepository.findByDescCategoria(productDTO.getDescCategoria())
+                .orElseThrow(
+                        () -> new RuntimeException("Category not found with name: " + productDTO.getDescCategoria()));
 
         // Validar que la subcategoría exista
-        Subcategoria subcategoria = subcategoriaRepository.findByDescSubcategoria(productDTO.getSubcategoryName())
-                .orElseThrow(() -> new RuntimeException("Subcategory not found with name: " + productDTO.getSubcategoryName()));
+        Subcategoria subcategoria = subcategoriaRepository.findByDescSubcategoria(productDTO.getDescSubcategoria())
+                .orElseThrow(() -> new RuntimeException(
+                        "Subcategory not found with name: " + productDTO.getDescSubcategoria()));
 
         // Mapear DTO a entidad
         Product product = productMapper.productDTOToProduct(productDTO);
-        product.setCategory(categoria);
-        product.setSubcategory(subcategoria);
+        product.setCategoria(categoria);
+        product.setSubcategoria(subcategoria);
 
         // Guardar el producto
         productRepository.save(product);

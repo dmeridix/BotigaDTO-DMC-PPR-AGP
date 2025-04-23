@@ -44,11 +44,11 @@ public class Product implements Serializable {
     // Una producte te una categoria
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "id_Categoria", nullable = false)
-    private Categoria category;
+    private Categoria categoria;
 
     // Una producte te una subcategoria
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "subcategory_id", referencedColumnName = "id_Subcategoria", nullable = false)
-    private Subcategoria subcategory;
+    private Subcategoria subcategoria;
 
 }
