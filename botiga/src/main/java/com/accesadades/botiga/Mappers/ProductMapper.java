@@ -3,6 +3,7 @@ package com.accesadades.botiga.Mappers;
 import java.util.List;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import com.accesadades.botiga.DTO.ProductDTO;
@@ -13,6 +14,8 @@ public interface ProductMapper {
 
 
     // Mapeig de Entitat Product a DTO
+    @Mapping(target = "category", source = "category.descCategoria")
+    @Mapping(target = "subcategory", source = "subcategory.descSubcategoria")
     ProductDTO productToProductDTO(Product product);
 
     // Mapeig de DTO a Entitat Product
