@@ -90,4 +90,16 @@ public class ProductServiceImpl implements GenericService<ProductDTO, Long> {
         List<Product> products = productRepository.findBySubcategoryDescSubcategoria(subcategoryName);
         return productMapper.productsToProductDTOs(products);
     }
+
+    public void modificarPreu(Long id, float newPrice) {
+        // Recuperar el producto existente por su ID
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+
+        // Actualizar el precio del producto
+        product.setPrice(newPrice);
+
+        // Guardar el producto actualizado
+        productRepository.save(product);
+    }
 }

@@ -63,11 +63,19 @@ public class APIController {
 
     // Modificar el preu d’un producte: api/botiga/ModificarPreu
     @PutMapping("/ModificarPreu/{id}")
-    public ResponseEntity<Void> modificarPreu(@PathVariable Long id, @RequestParam float newPrice) {
-        productService.findById(id).ifPresent(product -> {
-            product.setPrice(newPrice);
-            productService.save(product);
-        });
+    public ResponseEntity<Void> modificarPreu(
+            @PathVariable Long id,
+            @RequestParam float newPrice) {
+
+        // Verificar si el producto existe
+        if (productService.findById(id).isEmpty()) {
+            return ResponseEntity.notFound().build(); // Retorna 404 si no se encuentra el producto
+        }
+
+        // Modificar el precio del producto
+        productService.modificarPreu(id, newPrice);
+
+        // Retornar una respuesta exitosa (204 No Content)
         return ResponseEntity.noContent().build();
     }
 
@@ -91,7 +99,7 @@ public class APIController {
         List<CategoriaDTO> categories = categoriaService.findByDescCategoriaContaining(desc);
         return ResponseEntity.ok(categories);
     }
-    
+
     // Eliminar una categoria per ID
     @DeleteMapping("/EliminarCategoria/{id}")
     public ResponseEntity<Void> eliminarCategoria(@PathVariable Long id) {
@@ -102,7 +110,7 @@ public class APIController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
     // Nova Subcategoria: api/botiga/inserirSubcategoria
     @PostMapping("/inserirSubcategoria")
     public ResponseEntity<SubcategoriaDTO> inserirSubcategoria(@RequestBody SubcategoriaDTO subcategoriaDTO) {
