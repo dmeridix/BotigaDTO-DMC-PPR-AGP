@@ -81,13 +81,13 @@ public class ProductServiceImpl implements GenericService<ProductDTO, Long> {
 
     // Buscar productos por categoría
     public List<ProductDTO> findProductsByCategory(String categoryName) {
-        List<Product> products = productRepository.findByCategoryDescCategoria(categoryName);
+        List<Product> products = productRepository.findByCategoriaDescCategoria(categoryName);
         return productMapper.productsToProductDTOs(products);
     }
 
     // Buscar productos por subcategoría
     public List<ProductDTO> findProductsBySubcategory(String subcategoryName) {
-        List<Product> products = productRepository.findBySubcategoryDescSubcategoria(subcategoryName);
+        List<Product> products = productRepository.findBySubcategoriaDescSubcategoria(subcategoryName);
         return productMapper.productsToProductDTOs(products);
     }
 
