@@ -79,6 +79,21 @@ public class APIController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/eliminarProducte/{id}")
+    public ResponseEntity<Void> eliminarProducte(@PathVariable Long id) {
+        productService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/filtrarProductes")
+    public ResponseEntity<List<ProductDTO>> filtrarProductes(
+            @RequestParam(required = false) String categoryName,
+            @RequestParam(required = false) String subcategoryName) {
+
+        List<ProductDTO> products = productService.filterProducts(categoryName, subcategoryName);
+        return ResponseEntity.ok(products);
+    }
+
     // Nova Categoria: api/botiga/inserirCategoria
     @PostMapping("/inserirCategoria")
     public ResponseEntity<CategoriaDTO> inserirCategoria(@RequestBody CategoriaDTO categoriaDTO) {

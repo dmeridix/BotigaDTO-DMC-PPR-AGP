@@ -20,4 +20,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p JOIN FETCH p.categoria JOIN FETCH p.subcategoria")
     List<Product> findAllWithRelations();
+
+    List<Product> findByCategoriaDescCategoriaAndSubcategoriaDescSubcategoria(
+            String categoryName,
+            String subcategoryName);
 }

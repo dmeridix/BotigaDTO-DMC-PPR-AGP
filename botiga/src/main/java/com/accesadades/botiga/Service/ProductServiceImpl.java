@@ -70,6 +70,22 @@ public class ProductServiceImpl implements GenericService<ProductDTO, Long> {
         productRepository.deleteById(id);
     }
 
+    public List<ProductDTO> filterProducts(String categoryName, String subcategoryName) {
+        if (categoryName != null && subcategoryName != null) {
+            return productMapper.productsToProductDTOs(
+                    productRepository.findByCategoriaDescCategoriaAndSubcategoriaDescSubcategoria(categoryName,
+                            subcategoryName));
+        } else if (categoryName != null) {
+            return productMapper.productsToProductDTOs(
+                    productRepository.findByCategoriaDescCategoria(categoryName));
+        } else if (subcategoryName != null) {
+            return productMapper.productsToProductDTOs(
+                    productRepository.findBySubcategoriaDescSubcategoria(subcategoryName));
+        } else {
+            return findAll(); // Retorna todos los productos si no se especifican filtros
+        }
+    }
+
     // Buscar productos por nombre
     public ProductDTO findProductByName(String name) {
         Product product = productRepository.findByName(name);
