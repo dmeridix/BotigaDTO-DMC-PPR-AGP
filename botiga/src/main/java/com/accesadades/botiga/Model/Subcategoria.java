@@ -3,9 +3,14 @@ package com.accesadades.botiga.Model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,6 +26,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class) // Habilita l'auditoria automàtica
 @Table(name = "subcategoria")
 public class Subcategoria {
 
@@ -39,8 +45,21 @@ public class Subcategoria {
     @OneToMany(mappedBy = "subcategoria", cascade = CascadeType.ALL)
     private List<Product> productes;
 
+    @CreatedDate
     @Column(name = "creation_at", nullable = false)
     private Timestamp creationAt;
+
+    @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
     private Timestamp updatedAt;
+
+    @Override
+    public String toString() {
+        return "Subcategoria{" +
+                "idSubcategoria=" + idSubcategoria +
+                ", descSubcategoria='" + descSubcategoria + '\'' +
+                ", statusSubcategoria='" + statusSubcategoria + '\'' +
+                // Exclou la referència a la categoria per evitar la recursió
+                '}';
+    }
 }

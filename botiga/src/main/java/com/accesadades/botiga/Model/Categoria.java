@@ -53,4 +53,14 @@ public class Categoria implements Serializable {
     @LastModifiedDate // Marca este campo como fecha de última actualización
     @Column(name = "updated_at")
     private Timestamp updatedAt;
+
+    @Override
+    public String toString() {
+        return "Categoria{" +
+                "idCategoria=" + idCategoria +
+                ", descCategoria='" + descCategoria + '\'' +
+                ", statusCategoria='" + statusCategoria + '\'' +
+                // Exclou la llista de subcategories per evitar la recursió
+                '}';
+    }
 }
