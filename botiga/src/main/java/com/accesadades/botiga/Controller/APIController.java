@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.accesadades.botiga.DTO.CategoriaDTO;
 import com.accesadades.botiga.DTO.ProductDTO;
 import com.accesadades.botiga.DTO.SubcategoriaDTO;
+import com.accesadades.botiga.Model.Categoria;
+import com.accesadades.botiga.Model.Subcategoria;
 import com.accesadades.botiga.Service.CategoriaServiceImpl;
 import com.accesadades.botiga.Service.ProductServiceImpl;
 import com.accesadades.botiga.Service.SubcategoriaServiceImpl;
@@ -63,12 +65,35 @@ public class APIController {
 
     // Modificar el preu d’un producte: api/botiga/ModificarPreu
     @PutMapping("/ModificarPreu/{id}")
-    public ResponseEntity<Void> modificarPreu(@PathVariable Long id, @RequestParam float newPrice) {
-        productService.findById(id).ifPresent(product -> {
-            product.setPrice(newPrice);
-            productService.save(product);
-        });
+    public ResponseEntity<Void> modificarPreu(
+            @PathVariable Long id,
+            @RequestParam float newPrice) {
+
+        // Verificar si el producto existe
+        if (productService.findById(id).isEmpty()) {
+            return ResponseEntity.notFound().build(); // Retorna 404 si no se encuentra el producto
+        }
+
+        // Modificar el precio del producto
+        productService.modificarPreu(id, newPrice);
+
+        // Retornar una respuesta exitosa (204 No Content)
         return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/eliminarProducte/{id}")
+    public ResponseEntity<Void> eliminarProducte(@PathVariable Long id) {
+        productService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/filtrarProductes")
+    public ResponseEntity<List<ProductDTO>> filtrarProductes(
+            @RequestParam(required = false) String categoryName,
+            @RequestParam(required = false) String subcategoryName) {
+
+        List<ProductDTO> products = productService.filterProducts(categoryName, subcategoryName);
+        return ResponseEntity.ok(products);
     }
 
     // Nova Categoria: api/botiga/inserirCategoria
@@ -112,7 +137,7 @@ public class APIController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
     // Nova Subcategoria: api/botiga/inserirSubcategoria
     @PostMapping("/inserirSubcategoria")
     public ResponseEntity<SubcategoriaDTO> inserirSubcategoria(@RequestBody SubcategoriaDTO subcategoriaDTO) {
@@ -125,6 +150,45 @@ public class APIController {
     public ResponseEntity<List<SubcategoriaDTO>> llistarSubcategories() {
         List<SubcategoriaDTO> subcategories = subcategoriaService.findAll();
         return ResponseEntity.ok(subcategories);
+    }
+
+    // Eliminar una subcategoria per ID
+    @DeleteMapping("/EliminarSubcategoria/{id}")
+    public ResponseEntity<Void> eliminarSubcategoria(@PathVariable Long id) {
+        if (subcategoriaService.findById(id).isPresent()) {
+            subcategoriaService.deleteById(id);
+            return ResponseEntity.noContent().build(); // Retorna 204 No Content
+        } else {
+            return ResponseEntity.notFound().build(); // Retorna 404 Not Found
+        }
+    }
+
+    @PutMapping("/ModificarSubcategoria/{id}")
+    public ResponseEntity<Void> modificarSubcategoria(
+            @PathVariable Long id,
+            @RequestBody SubcategoriaDTO subcategoriaDTO) {
+
+        // Cerca la subcategoria existent pel seu ID
+        SubcategoriaDTO existingSubcategoria = subcategoriaService.findById(id)
+                .orElseThrow(() -> new RuntimeException("Subcategoria no trobada amb ID: " + id));
+
+        // Actualitza les dades utilitzant els setters de l'entitat
+        existingSubcategoria.setDescSubcategoria(subcategoriaDTO.getDescSubcategoria());
+        existingSubcategoria.setStatusSubcategoria(subcategoriaDTO.getStatusSubcategoria());
+
+        // Guarda els canvis directament a l'entitat existent
+        subcategoriaService.save(existingSubcategoria);
+
+        return ResponseEntity.noContent().build(); // Retorna 204 No Content
+    }
+
+    // Llistar subcategories per estat
+    @GetMapping("/LlistarSubcategoriesPerEstat")
+    public ResponseEntity<List<SubcategoriaDTO>> llistarSubcategoriesPerEstat(
+            @RequestParam String status) {
+
+        List<SubcategoriaDTO> subcategories = subcategoriaService.findByStatusSubcategoria(status);
+        return ResponseEntity.ok(subcategories); // Retorna 200 OK
     }
 
 }

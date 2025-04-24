@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubcategoriaDTO {
 
     private String descSubcategoria;
-    // private String statusSubcategoria;
+    private String statusSubcategoria;
     // private CategoriaDTO categoria;
+    private String descCategoria; // Només el nom de la categoria associada
 
 }

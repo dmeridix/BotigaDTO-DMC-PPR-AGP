@@ -70,6 +70,22 @@ public class ProductServiceImpl implements GenericService<ProductDTO, Long> {
         productRepository.deleteById(id);
     }
 
+    public List<ProductDTO> filterProducts(String categoryName, String subcategoryName) {
+        if (categoryName != null && subcategoryName != null) {
+            return productMapper.productsToProductDTOs(
+                    productRepository.findByCategoriaDescCategoriaAndSubcategoriaDescSubcategoria(categoryName,
+                            subcategoryName));
+        } else if (categoryName != null) {
+            return productMapper.productsToProductDTOs(
+                    productRepository.findByCategoriaDescCategoria(categoryName));
+        } else if (subcategoryName != null) {
+            return productMapper.productsToProductDTOs(
+                    productRepository.findBySubcategoriaDescSubcategoria(subcategoryName));
+        } else {
+            return findAll(); // Retorna todos los productos si no se especifican filtros
+        }
+    }
+
     // Buscar productos por nombre
     public ProductDTO findProductByName(String name) {
         Product product = productRepository.findByName(name);
@@ -81,13 +97,25 @@ public class ProductServiceImpl implements GenericService<ProductDTO, Long> {
 
     // Buscar productos por categoría
     public List<ProductDTO> findProductsByCategory(String categoryName) {
-        List<Product> products = productRepository.findByCategoryDescCategoria(categoryName);
+        List<Product> products = productRepository.findByCategoriaDescCategoria(categoryName);
         return productMapper.productsToProductDTOs(products);
     }
 
     // Buscar productos por subcategoría
     public List<ProductDTO> findProductsBySubcategory(String subcategoryName) {
-        List<Product> products = productRepository.findBySubcategoryDescSubcategoria(subcategoryName);
+        List<Product> products = productRepository.findBySubcategoriaDescSubcategoria(subcategoryName);
         return productMapper.productsToProductDTOs(products);
+    }
+
+    public void modificarPreu(Long id, float newPrice) {
+        // Recuperar el producto existente por su ID
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+
+        // Actualizar el precio del producto
+        product.setPrice(newPrice);
+
+        // Guardar el producto actualizado
+        productRepository.save(product);
     }
 }
