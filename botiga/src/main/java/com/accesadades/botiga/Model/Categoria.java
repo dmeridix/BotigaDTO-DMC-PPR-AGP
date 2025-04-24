@@ -2,8 +2,10 @@ package com.accesadades.botiga.Model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,12 +23,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@EntityListeners(AuditingEntityListener.class) // Habilita la auditoría automática
 @Table(name = "categoria")
+@EntityListeners(AuditingEntityListener.class) // Habilita la auditoría automática
 public class Categoria implements Serializable {
 
     @Id
@@ -40,11 +42,15 @@ public class Categoria implements Serializable {
     @Column(name = "status_Categoria", nullable = false)
     private String statusCategoria;
 
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-    private List<Subcategoria> subcategoria;
+    // Relación bidireccional con Subcategoria
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
+    @BatchSize(size = 10) // Carga las subcategorías en lotes de 10
+    private List<Subcategoria> subcategoria = new ArrayList<>();
 
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-    private List<Product> productos;
+    // Relación bidireccional con Product
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
+    @BatchSize(size = 10) // Carga los productos en lotes de 10
+    private List<Product> productos = new ArrayList<>();
 
     @CreatedDate // Marca este campo como fecha de creación
     @Column(name = "creation_at", updatable = false) // No se actualiza después de la creación
@@ -53,4 +59,35 @@ public class Categoria implements Serializable {
     @LastModifiedDate // Marca este campo como fecha de última actualización
     @Column(name = "updated_at")
     private Timestamp updatedAt;
+
+    // Métodos auxiliares para manejar relaciones bidireccionales
+    public void addSubcategoria(Subcategoria subcategoria) {
+        this.subcategoria.add(subcategoria);
+        subcategoria.setCategoria(this);
+    }
+
+    public void removeSubcategoria(Subcategoria subcategoria) {
+        this.subcategoria.remove(subcategoria);
+        subcategoria.setCategoria(null);
+    }
+
+    public void addProducto(Product product) {
+        this.productos.add(product);
+        product.setCategoria(this);
+    }
+
+    public void removeProducto(Product product) {
+        this.productos.remove(product);
+        product.setCategoria(null);
+    }
+
+    @Override
+    public String toString() {
+        return "Categoria{" +
+                "idCategoria=" + idCategoria +
+                ", descCategoria='" + descCategoria + '\'' +
+                ", statusCategoria='" + statusCategoria + '\'' +
+                // Excluir las listas de subcategorias y productos para evitar recursión
+                '}';
+    }
 }

@@ -81,17 +81,27 @@ public class APIController {
     // Llistat totes les categories: api/botiga/LlistarCategories
     @GetMapping("/LlistarCategories")
     public ResponseEntity<List<CategoriaDTO>> llistarCategories() {
-        List<CategoriaDTO> categories = categoriaService.findAll();
-        return ResponseEntity.ok(categories);
+        List<CategoriaDTO> categorias = categoriaService.findAll();
+        return ResponseEntity.ok(categorias);
     }
 
     // Cercar categories per descCategoria (descripció)
     @GetMapping("/CercarCategoriesPerDescripcio")
     public ResponseEntity<List<CategoriaDTO>> cercarCategoriesPerDescripcio(@RequestParam String desc) {
         List<CategoriaDTO> categories = categoriaService.findByDescCategoriaContaining(desc);
+
         return ResponseEntity.ok(categories);
     }
     
+    @PutMapping("/ModificarStatusCategoria/{id}")
+    public ResponseEntity<Void> modificarStatusCategoria(
+            @PathVariable Long id,
+            @RequestParam String newStatus) {
+        categoriaService.updateStatusCategoria(id, newStatus);
+
+        return ResponseEntity.noContent().build();
+    }
+
     // Eliminar una categoria per ID
     @DeleteMapping("/EliminarCategoria/{id}")
     public ResponseEntity<Void> eliminarCategoria(@PathVariable Long id) {

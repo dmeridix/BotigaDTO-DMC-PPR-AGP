@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 
 public class BotigaApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(BotigaApplication.class, args);
 	}
-
 }
