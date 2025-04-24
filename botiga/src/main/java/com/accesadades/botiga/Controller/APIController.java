@@ -165,8 +165,8 @@ public class APIController {
         existingSubcategoria.setDescSubcategoria(subcategoriaDTO.getDescSubcategoria());
         existingSubcategoria.setStatusSubcategoria(subcategoriaDTO.getStatusSubcategoria());
 
-        // Guarda els canvis
-        subcategoriaService.save(existingSubcategoria);
+        // Guarda els canvis (el servei s'encarregarà de gestionar l'actualització)
+        subcategoriaService.update(existingSubcategoria);
 
         return ResponseEntity.ok(existingSubcategoria); // Retorna 200 OK
     }
