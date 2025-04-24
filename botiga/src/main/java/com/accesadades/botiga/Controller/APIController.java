@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.accesadades.botiga.DTO.CategoriaDTO;
 import com.accesadades.botiga.DTO.ProductDTO;
 import com.accesadades.botiga.DTO.SubcategoriaDTO;
+import com.accesadades.botiga.Model.Categoria;
+import com.accesadades.botiga.Model.Subcategoria;
 import com.accesadades.botiga.Service.CategoriaServiceImpl;
 import com.accesadades.botiga.Service.ProductServiceImpl;
 import com.accesadades.botiga.Service.SubcategoriaServiceImpl;
@@ -151,24 +153,23 @@ public class APIController {
         }
     }
 
-    // Actualitzar una subcategoria
     @PutMapping("/ModificarSubcategoria/{id}")
-    public ResponseEntity<SubcategoriaDTO> modificarSubcategoria(
+    public ResponseEntity<Void> modificarSubcategoria(
             @PathVariable Long id,
             @RequestBody SubcategoriaDTO subcategoriaDTO) {
 
-        // Cerca la subcategoria existent
+        // Cerca la subcategoria existent pel seu ID
         SubcategoriaDTO existingSubcategoria = subcategoriaService.findById(id)
                 .orElseThrow(() -> new RuntimeException("Subcategoria no trobada amb ID: " + id));
 
-        // Actualitza les dades
+        // Actualitza les dades utilitzant els setters de l'entitat
         existingSubcategoria.setDescSubcategoria(subcategoriaDTO.getDescSubcategoria());
         existingSubcategoria.setStatusSubcategoria(subcategoriaDTO.getStatusSubcategoria());
 
-        // Guarda els canvis
+        // Guarda els canvis directament a l'entitat existent
         subcategoriaService.save(existingSubcategoria);
 
-        return ResponseEntity.ok(existingSubcategoria); // Retorna 200 OK
+        return ResponseEntity.noContent().build(); // Retorna 204 No Content
     }
 
     // Llistar subcategories per estat

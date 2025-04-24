@@ -14,6 +14,6 @@ public interface SubcategoriaRepository extends JpaRepository<Subcategoria, Long
 
     List<Subcategoria> findByStatusSubcategoria(String statusSubcategoria);
 
-    void update(Subcategoria existingSubcategoria);
+    // void update(Subcategoria existingSubcategoria);
 
 }
