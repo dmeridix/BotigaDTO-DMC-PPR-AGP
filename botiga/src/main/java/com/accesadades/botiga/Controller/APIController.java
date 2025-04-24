@@ -140,4 +140,44 @@ public class APIController {
         return ResponseEntity.ok(subcategories);
     }
 
+    // Eliminar una subcategoria per ID
+    @DeleteMapping("/EliminarSubcategoria/{id}")
+    public ResponseEntity<Void> eliminarSubcategoria(@PathVariable Long id) {
+        if (subcategoriaService.findById(id).isPresent()) {
+            subcategoriaService.deleteById(id);
+            return ResponseEntity.noContent().build(); // Retorna 204 No Content
+        } else {
+            return ResponseEntity.notFound().build(); // Retorna 404 Not Found
+        }
+    }
+
+    // Actualitzar una subcategoria
+    @PutMapping("/ModificarSubcategoria/{id}")
+    public ResponseEntity<SubcategoriaDTO> modificarSubcategoria(
+            @PathVariable Long id,
+            @RequestBody SubcategoriaDTO subcategoriaDTO) {
+
+        // Cerca la subcategoria existent
+        SubcategoriaDTO existingSubcategoria = subcategoriaService.findById(id)
+                .orElseThrow(() -> new RuntimeException("Subcategoria no trobada amb ID: " + id));
+
+        // Actualitza les dades
+        existingSubcategoria.setDescSubcategoria(subcategoriaDTO.getDescSubcategoria());
+        existingSubcategoria.setStatusSubcategoria(subcategoriaDTO.getStatusSubcategoria());
+
+        // Guarda els canvis
+        subcategoriaService.save(existingSubcategoria);
+
+        return ResponseEntity.ok(existingSubcategoria); // Retorna 200 OK
+    }
+
+    // Llistar subcategories per estat
+    @GetMapping("/LlistarSubcategoriesPerEstat")
+    public ResponseEntity<List<SubcategoriaDTO>> llistarSubcategoriesPerEstat(
+            @RequestParam String status) {
+
+        List<SubcategoriaDTO> subcategories = subcategoriaService.findByStatusSubcategoria(status);
+        return ResponseEntity.ok(subcategories); // Retorna 200 OK
+    }
+
 }

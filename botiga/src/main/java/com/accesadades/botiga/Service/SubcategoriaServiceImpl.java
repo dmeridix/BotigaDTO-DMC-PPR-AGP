@@ -64,4 +64,5 @@ public class SubcategoriaServiceImpl implements GenericService<SubcategoriaDTO, 
         List<Subcategoria> subcategorias = subcategoriaRepository.findByStatusSubcategoria(statusSubcategoria);
         return subcategoriaMapper.subcategoriesToSubcategoriesDTO(subcategorias);
     }
+    
 }
