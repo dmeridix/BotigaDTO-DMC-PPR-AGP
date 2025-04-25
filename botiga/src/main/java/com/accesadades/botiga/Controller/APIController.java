@@ -1,8 +1,11 @@
 package com.accesadades.botiga.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,9 +47,18 @@ public class APIController {
 
     // Nou Producte: api/botiga/inserirProducte
     @PostMapping("/inserirProducte")
-    public ResponseEntity<ProductDTO> inserirProducte(@RequestBody ProductDTO productDTO) {
-        productService.save(productDTO);
-        return ResponseEntity.ok(productDTO);
+    public ResponseEntity<?> inserirProducte(@RequestBody ProductDTO productDTO) {
+        try {
+            productService.save(productDTO);
+            return ResponseEntity.ok(productDTO);
+        } catch (RuntimeException ex) {
+            if (ex.getMessage().contains("Category not found") || ex.getMessage().contains("Subcategory not found")) {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", ex.getMessage());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+            }
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     // Llistat tots els productes: api/botiga/LlistarProductes
@@ -117,7 +129,7 @@ public class APIController {
 
         return ResponseEntity.ok(categories);
     }
-    
+
     @PutMapping("/ModificarStatusCategoria/{id}")
     public ResponseEntity<Void> modificarStatusCategoria(
             @PathVariable Long id,

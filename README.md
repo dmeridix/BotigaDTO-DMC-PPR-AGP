@@ -122,5 +122,67 @@ EliminarCategoria:
   ![image](https://github.com/user-attachments/assets/20314b9a-4359-4c5d-9cd8-b294a15623ea)
 
 
+## Proves del controlador de Producte
 
+LlistarProductes:
 
+![image](llistarProductes.png)
+
+CercaProductes:
+
+![image](cercaProductes.png)
+
+FiltrarProductes:
+> Parametres opcionals
+
+- Per categoria
+  
+  ![image](filtrarPerCategoria.png)
+
+- Per Subcategoria
+
+  ![image](filtrarPerSubcategoria.png)
+
+- Per Categoria Subcategoria
+
+  ![image](subcatcat.png)
+
+InserirProducte:
+
+- Al inserir sense categoria existent:
+
+  ![image](nocategoria.png)
+
+- Al inserir sense subcategoria existent:
+
+  ![image](nosubcat.png)
+
+- Inserir Correctament
+
+  ![image](insercio.png)
+
+  --- BBDD
+
+  ![image](insersql.png)
+
+ModificarPreu:
+
+- ID No valid
+
+  ![image](novalidid.png)
+
+- Correctament
+
+  ![image](modificacio.png)
+
+  --- BBDD
+
+  ![image](modisql.png)
+
+EliminarProducte:
+
+  ![image](eliminar.png)
+
+  --- BBDD
+
+  ![image](eliminarsql.png)
